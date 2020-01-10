@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Deven | Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+		<script src="jquery-3.4.0.min.js"></script>
+		<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+			integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ'
+			crossorigin='anonymous'/>
+		<script>
+				var flag = window.localStorage;
+				var address;
+				$.getJSON('https://ipapi.co/json/', function(data) {
+					address = data.ip;
+				});
+				window.ontouchmove = function() { return false; }
+				window.onorientationchange = function() { document.body.scrollTop = 0; }
+	
+				var firebaseConfig = {
+					apiKey: "AIzaSyDP-_JAW7eiuAlL5WWkItGNoAgbFvu5nJ0",
+					authDomain: "portfolio-a25fa.firebaseapp.com",
+					databaseURL: "https://portfolio-a25fa.firebaseio.com",
+					projectId: "portfolio-a25fa",
+					storageBucket: "portfolio-a25fa.appspot.com",
+					messagingSenderId: "583463176660",
+					appId: "1:583463176660:web:459fbc3a1005e2d4"
+				};
+				firebase.initializeApp(firebaseConfig);
+					
+				var data;
+
+				function mycounter(){
+					document.body.classList.remove('is-preload');
+					var ref = firebase.database().ref('Total Visit').once('value').then(function(snapshot){
+						data = snapshot.val();
+						var value = data + 1;
+						firebase.database().ref('Total Visit').set(value);
+
+						var flag1=0;
+					if(window.localStorage.getItem('visit')===null){
+						var messagesRef = firebase.database().ref('IP');
+							var newMessageRef = messagesRef.push();
+							newMessageRef.set({ip : address});
+							
+							var ref = firebase.database().ref('Unique Visit').once('value').then(function(snapshot){
+								data = snapshot.val();
+								var value = data + 1;
+								firebase.database().ref('Unique Visit').set(value);
+							});
+							window.localStorage.setItem('visit','1');
+					}
+					return;
+					});
+				};
+		</script>	
+	</head>
+	<body class="is-preload" onload="mycounter()">
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
+					<header id="header">
+						<h1>Deven Vachhani</h1>
+						<p>Android Developer &nbsp;&bull;&nbsp; Photographer &nbsp;&bull;&nbsp; ICT Student</p>
+						<nav>
+							<ul>
+								<li><a href="https://play.google.com/store/apps/developer?id=Devsoftzz"  target="_blank" class="fab fa-google-play"><span class="label">Play Store</span></a></li>
+								<li><a href="https://www.instagram.com/_iamdeven/?hl=en"target="_blank" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/devsoftzz" target="_blank" class="icon fa-github"><span class="label">Github</span></a></li>
+								<li><a href="https://www.facebook.com/deven.vachhani.26" target="_blank" class="icon fa-facebook"><span class="label">Github</span></a></li>
+								<li><a href="mailto:devsoft.deven@gmail.com" target="_blank" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+							</ul>
+						</nav>
+					</header>
+					<footer id="footer">
+						<span class="copyright">&copy; Devsoft . Design by  <a href="devsotzz.github.io/">Deven Vachhani</a> .</span>
+					</footer>
+			</div>
+		</div>
+	</body>
+</html>
